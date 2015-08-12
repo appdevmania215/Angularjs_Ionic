@@ -1,0 +1,48 @@
+<div class="menu-modal modal">
+  <ion-header-bar class="bar-dark-bluish">
+    <button class="button button-icon button-clear icon ion-close-round" ng-click="menu.hide()"></button>
+     <span class="button logo-small logo" ng-click="menu.hide()">
+      Site360
+    </span>
+  </ion-header-bar>
+  <ion-content>
+    <div class="list">
+      <div class="user-item item">
+        <div class="user-item-wrapper">
+          <div class="user-item-photo" ng-if="user.avatar">
+            <span class="photo" style="background-image: url({{ user.avatar | imageUrl }})"></span>
+          </div>
+          <div class="user-item-details">
+            <h2 class="name">{{ user | fullName }}</h2>
+            <p class="role">{{ user.position.name }}</p> 
+          </div>
+        </div>
+      </div>
+      <a class="item item-icon-left" nav-clear ui-sref="notifications" ui-sref-active="active" ng-click="hideIf('notifications')">
+        <i class="icon ion-alert"></i>
+        Notifications
+        <span ng-if="notifications | unreadCount" class="badge badge-assertive">{{ notifications | unreadCount }}</span>
+      </a>
+      <a class="item item-icon-left" nav-clear ui-sref="profile" ui-sref-active="active" ng-click="hideIf('profile')">
+        <i class="icon ion-person"></i>
+        My Profile
+      </a>
+      <a class="item item-icon-left" nav-clear ui-sref="settings" ui-sref-active="active" ng-click="hideIf('settings')">
+        <i class="icon ion-gear-a"></i>
+        Settings
+      </a>
+      <a class="item item-icon-left" nav-clear ng-click="logout()">
+        <i class="icon ion-log-out"></i>
+        Sign out
+      </a>
+    </div>
+
+    <!-- HockeyApp -->
+    <div class="list card" ng-if="canHasFeedback()">
+      <a class="item item-icon-left" style="color: #79798d" ng-click="feedback()">
+        <i class="icon ion-chatbubbles"></i>
+        Send Feedback
+      </a>
+    </div>
+  </ion-content>
+</div>

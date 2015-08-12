@@ -1,0 +1,25 @@
+<div class="modal">
+  <ion-view class="dark-view">
+    <div class="bar bar-dark-bluish bar-header">
+      <button class="button button-clear" ng-click="select.hide()">Cancel</button>
+      <h1 class="title">Select {{ title }}</h1>
+    </div>
+
+    <ion-content class="has-header" has-bouncing="true">
+      <div class="default-selector-list selector-list list">
+        <label
+        class="item-radio item"
+        style="width: 100%"
+        collection-repeat="option in options"
+        collection-item-height="50"
+        ng-click="selectOption(option)">
+          <input type="radio" ng-checked="selectedOption === option.id">
+          <div class="item-content">
+            <h2>{{ option.name }}</h2>
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+      </div>
+    </ion-content>
+  </ion-view>
+</div>

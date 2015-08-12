@@ -1,0 +1,57 @@
+<ion-view>
+  <div class="bar bar-dark-bluish bar-header">
+    <button class="button button-clear ion-ios7-arrow-back"
+    ng-click="back()"></button>
+    <h1 class="title">Notification</h1>
+    <button class="button button-clear button-assertive"
+    ng-if="canEditNotification()" ng-click="edit()">Edit</button>
+  </div>
+
+  <ion-content class="notification-view has-header" style="background-image: url({{ (notification.attachments | images)[0] | imageUrl }})" has-bouncing="true">
+    <div class="padding current-notification">
+      <header ng-class="notification.title ? 'has-title' : 'no-title'">
+        <div class="header-inner">
+          <h1 class="title" ng-if="notification.title">{{ notification.title }}</h1>
+          <h2 class="date small-caps">{{ notification.updatedAt | date: 'd MMMM yyyy h:mma' }}</h2>
+        </div>
+      </header>
+      <a class="button button-block button-balanced"
+      ng-click="showNotificationPhotos()"
+      ng-if="notification.attachments[0]">
+        View photos ({{ notification.attachments | numberOfImages }})
+      </a>
+    </div>
+    <div class="notification-list list">
+      <div class="translucent-item item" ng-if="notification.site.name">
+        <h2 class="assertive heading">Site</h2>
+        <p>{{ notification.site.name }}</p>
+      </div>
+      <div class="translucent-item item" ng-if="notification.description">
+        <div class="item-body">
+          <h2 class="assertive heading">Description</h2>
+          <p>{{ notification.description }}</p>
+        </div>
+      </div>
+      <div class="translucent-item item" ng-if="notification.notificationType.name">
+        <h2 class="assertive heading">Notification Type</h2>
+        <p>{{ notification.notificationType.name }}</p>
+      </div>
+      <div class="translucent-item item" ng-if="notification.alertType.name">
+        <h2 class="assertive heading">Alert Type</h2>
+        <p>{{ notification.alertType.name }}</p>
+      </div>
+      <div class="translucent-item item" ng-if="notification.location">
+        <h2 class="assertive heading">On-site Location</h2>
+        <p>{{ notification.location }}</p>
+      </div>
+      <div class="translucent-item item" ng-if="notification.moreInfo">
+        <h2 class="assertive heading">More info</h2>
+        <p>
+          <a ng-click="openUrl('{{ notification.moreInfo | urlify }}')">
+            {{ notification.moreInfo }}
+          </a> 
+        </p>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,65 @@
+<ion-view>
+  <div class="bar bar-dark-bluish bar-header">
+    <button class="button button-clear icon ion-navicon" ng-click="menu.show()"></button>
+    <h1 class="select-title title" ng-click="openSiteSelector()">
+      <span class="label small-caps">
+        Notifications for
+      </span>
+      <span class="option" data-empty="{{ !selectedSite }}" ng-class="modal.isShown() ? 'active' : ''">
+        {{ selectedSite ? selectedSite.name : 'Select a site' }}
+      </span>
+    </h1>
+    <button class="button button-clear icon ion-ios7-search" ng-click="showNotificationsSearch()"></button>
+  </div>
+  <div class="bar bar-dark-bluish bar-subheader">
+    <div class="segmented-control button-bar">
+      <a class="button"
+      ng-class="selectedType === 'Received' ? 'active' : ''"
+      ng-click="selectType('Received')">
+        <i class="icon ion-archive"></i>
+        Received
+      </a>
+      <a class="button"
+      ng-class="selectedType === 'Sent' ? 'active' : ''"
+      ng-click="selectType('Sent')">
+        <i class="icon ion-paper-airplane"></i>
+        Sent
+      </a>
+    </div>
+  </div>
+
+  <div class="empty has-subheader" ng-if="!(notifications | forSite: selectedSite | forType: selectedType).length">
+    <p class="text">No notifications</p>
+  </div>
+
+  <ion-content class="opaque-content has-subheader has-footer" has-bouncing="true">
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="doRefresh()">
+    </ion-refresher>
+    <div class="notifications-list list">
+      <a class="notification item item-thumbnail-left"
+      ng-class="!notification.read.viewedAt ? 'unread' : ''"
+      ui-sref="notification({ id: notification.id })"
+      style="width: 100.5%"
+      collection-item-height="109"
+      collection-repeat="notification in notifications | forSite: selectedSite | forType: selectedType | orderBy: '-updatedAt'">
+        <div class="item-image" style="background-image:url({{ (notification.attachments | images)[0] | thumbnailUrl }})"></div>
+        <h2 class="title small-caps" ng-if="notification.title">{{ notification.title }}</h2>
+        <p class="description">{{ notification.description | charLimit: 48 }}<span class="anchor"></span></p>
+        <div class="meta clearfix">
+          <span class="reporter">{{ notification.reporter | fullName }}</span>
+          <span class="date">{{ notification.updatedAt | date: 'MMM d, h:mma' | lowerMeridiem | cropDate: 'MMM d, ' }}</span>
+        </div>
+      </a>
+    </div>
+  </ion-content>
+
+  <div class="bar bar-dark-bluish bar-footer">
+    <div class="button-bar">
+      <button class="button button-balanced" ng-click="showNotificationCreate()">
+        Create notification
+      </button>
+    </div>
+  </div> 
+</ion-view>

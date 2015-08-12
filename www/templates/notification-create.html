@@ -1,0 +1,129 @@
+<ion-view class="dark-view">
+  <div class="bar bar-dark-bluish bar-header">
+    <button class="button button-clear" ng-click="cancel()">Cancel</button>
+    <h1 class="title">{{ isEditing ? 'Edit' : 'Create' }} notification</h1>
+  </div>
+
+  <form name="form" novalidate>
+    <ion-content class="create-notification padded-content has-header has-footer" has-bouncing="true">
+      <div class="photo-selector">
+        <div class="photo-count">
+          {{ selected.length || 0 }} photo{{ !selected.length || selected.length > 1 ? 's' : '' }} selected
+        </div>
+        <div class="photo-selector-options row">
+          <div class="col">
+            <button class="button button-balanced button-block"
+              ng-click="openCameraRoll()">
+              {{ selected.length ? 'Edit Selection' : 'Take/Select Photo' }}
+            </button>
+          </div>
+          <div class="col" ng-if="selected.length">
+            <button class="button button-balanced button-block"
+              ng-click="viewPhotos()">
+              View Photos
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="list">
+        <label class="item item-input item-floating-label item-faux-select"
+          ng-class="validationClass(form.siteId)"
+          ng-click="openSelectFor('siteId')">
+          <span class="input-label">Site</span>
+          <input type="text" name="siteId"
+            required
+            ng-model="notification.site"
+            ng-blur="blurred.siteId = true"
+            placeholder="Site">
+        </label>
+
+        <label class="item item-input item-floating-label"
+          ng-class="validationClass(form.description)">
+          <span class="input-label">
+            Description
+            <span ng-if="validationClass(form.description)">
+              <span ng-if="form.description.$error.maxlength"> too long</span>
+            </span>
+          </span>
+          <textarea name="description"
+            required
+            ng-maxlength="300"
+            ng-blur="blurred.description = true"
+            ng-model="notification.description"
+            placeholder="Description">
+          </textarea>
+        </label>
+
+        <label class="item item-input item-floating-label"
+          ng-class="validationClass(form.title)">
+          <span class="input-label">{{ optionalLabel('Title') }}</span>
+          <input type="text" name="title"
+            ng-required="canSetStatus()"
+            ng-model="notification.title"
+            ng-blur="blurred.title = true"
+            placeholder="{{ optionalLabel('Title') }}">
+        </label>
+
+        <label class="item item-input item-floating-label item-faux-select"
+          ng-class="validationClass(form.notificationTypeId)"
+          ng-click="openSelectFor('notificationTypeId')">
+          <span class="input-label">{{ optionalLabel('Notification Type') }}</span>
+          <input type="text" name="notificationTypeId"
+            ng-required="canSetStatus()"
+            ng-model="notification.notificationType"
+            ng-blur="blurred.notificationTypeId = true"
+            placeholder="{{ optionalLabel('Notification Type') }}">
+        </label>
+
+        <label class="item item-input item-floating-label item-faux-select"
+          ng-class="validationClass(form.alertTypeId)"
+          ng-click="openSelectFor('alertTypeId', !notification.notificationType)"
+          ng-disabled="!notification.notificationType">
+          <span class="input-label">Alert Type (optional)</span>
+          <input type="text" name="alertTypeId"
+            ng-model="notification.alertType"
+            ng-blur="blurred.alertTypeId = true"
+            placeholder="Alert Type (optional)">
+        </label>
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">On-site location (optional)</span>
+          <input type="text"
+            ng-model="notification.location"
+            placeholder="On-site location (optional)">
+        </label>
+        
+        <label class="item item-input item-floating-label"
+          ng-class="validationClass(form.moreInfo)">
+          <span class="input-label">Link to more info (optional)</span>
+          <input type="text" name="moreInfo"
+            ng-model="notification.moreInfo"
+            ng-blur="blurred.moreInfo = true"
+            ng-pattern="/^\S+\.[a-z]{2,}\S*$/"
+            placeholder="Link to more info (optional)">
+        </label>
+
+        <label ng-if="canSetStatus()"
+          class="item item-input item-floating-label item-faux-select"
+          ng-class="validationClass(form.statusId)"
+          ng-click="openSelectFor('statusId')">
+          <span class="input-label">Status</span>
+          <input type="text" name="statusId"
+            ng-model="notification.status"
+            ng-blur="blurred.statusId = true"
+            placeholder="Status">
+        </label>
+      </div>
+    </ion-content>
+
+    <div class="bar bar-dark-bluish bar-footer">
+      <div class="button-bar" ng-click="validate(form)">
+        <button class="button button-balanced"
+          ng-click="create(notification)"
+          ng-disabled="form.$invalid">
+          {{ isEditing ? 'Edit' : 'Create' }} notification
+        </button>
+      </div>
+    </div> 
+  </form>
+</ion-view>

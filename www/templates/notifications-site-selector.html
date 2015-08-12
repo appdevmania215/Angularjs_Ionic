@@ -1,0 +1,29 @@
+<div class="selector-modal modal">
+  <ion-content ng-class="selectedSite ? 'has-footer' : ''" has-bouncing="true">
+    <div class="site-selector-list selector-list list">
+      <label class="item-radio item"
+      ng-repeat="site in sites"
+      ng-click="selectSite(site)">
+        <input type="radio" ng-checked="isSelectedSite(site)">
+        <div class="item-content">
+          <div class="item-body">
+            <h2 class="assertive heading">{{ site.name }}</h2>
+            <p>{{ site | siteAddress }}</p>
+          </div>
+        </div>
+        <i class="radio-icon ion-checkmark balanced"></i>
+        <span class="badge badge-assertive"
+        ng-if="!isSelectedSite(site) && (notifications | forSite: site | unreadCount)">
+          {{ notifications | forSite: site | unreadCount }}
+        </span>
+      </label>
+    </div>
+  </ion-content>
+  <div class="bar bar-footer" ng-if="selectedSite">
+    <div class="button-bar">
+      <button class="button button-assertive" ng-click="modal.hide()">
+        Cancel
+      </button>
+    </div>
+  </div> 
+</div>

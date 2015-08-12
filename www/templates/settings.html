@@ -1,0 +1,95 @@
+<ion-view>
+<form class="toggleable" name="form" no-validate>
+  <div class="bar bar-dark-bluish bar-header">
+    <button class="{{ leftButtonClasses }}" ng-click="leftButtonClick()">
+      {{ leftButton }}
+    </button>
+    <h1 class="title">Settings</h1>
+    <button class="{{ rightButtonClasses }}" ng-click="rightButtonClick()" ng-disabled="editing && (form.$invalid || !passwordsMatch())">
+      {{ rightButton }}
+    </button>
+  </div>
+
+  <ion-content class="opaque-content padded-content has-header" has-bouncing="true"> 
+    <h2 class="heading assertive">Account credentials</h2>
+      <div class="list">
+        <label class="item item-input item-floating-label"
+          ng-class="validationClass(form.email)"
+          ng-disabled="!editing">
+          <span class="input-label">
+            Email
+            <span ng-if="validationClass(form.email)">
+              <span> invalid</span>
+            </span>
+          </span>
+          <input type="email" name="email"
+            required
+            placeholder="Email"
+            ng-disabled="!editing"
+            ng-model="user.email"
+            ng-blur="blurred.email = true"
+            ng-pattern="regex.email">
+        </label>
+        <div id="password" ng-show="!editing">
+          <p class="change-password-message">You can change your password by pressing the “Edit” button.</p>
+          <!--
+          <label class="item item-input item-floating-label"
+            ng-disabled="!editing">
+            <span class="input-label">Password</span>
+            <input type="password"
+              placeholder="Password"
+              ng-disabled="true">
+          </label>
+          -->
+        </div>
+        <div id="change-password" style="margin-top: 25px" ng-class="!editing ? 'transparent' : ''">
+          <h3 class="heading assertive">Change password</h3>
+          <label class="item item-input item-floating-label" ng-class="validationClass(form.oldPassword, success)">
+            <span class="input-label">
+              Current password
+              <span ng-if="validationClass(form.oldPassword, success)">
+                <span ng-if="form.oldPassword.$error.minlength"> too short</span>
+                <span ng-if="form.oldPassword.$error.maxlength"> too long</span>
+              </span>
+              <span ng-if="form.oldPassword.$valid && !success()"> incorrect</span>
+            </span>
+            <input type="password" name="oldPassword"
+              placeholder="Current Password"
+              ng-model="user.oldPassword"
+              ng-blur="blurred.oldPassword = true"
+              ng-minlength="4"
+              ng-maxlength="11">
+          </label>
+          <label class="item item-input item-floating-label" ng-class="validationClass(form.password)">
+          <span class="input-label">
+            Password
+            <span ng-if="validationClass(form.password)">
+              <span ng-if="form.password.$error.minlength"> too short</span>
+              <span ng-if="form.password.$error.maxlength"> too long</span>
+            </span>
+          </span>
+          <input type="password" name="password"
+            placeholder="Password"
+            ng-model="user.password"
+            ng-blur="blurred.password = true"
+            ng-minlength="4"
+            ng-maxlength="11">
+        </label>
+        <label class="item item-input item-floating-label" ng-class="validationClass(form.passwordConfirmation, passwordsMatch)">
+          <span class="input-label">
+            Confirm password
+            <span ng-if="validationClass(form.passwordConfirmation, passwordsMatch)">
+              does not match
+            </span>
+          </span>
+          <input type="password" name="passwordConfirmation"
+            placeholder="Confirm password"
+            ng-model="user.passwordConfirmation"
+            ng-blur="blurred.passwordConfirmation = true">
+        </label>
+        </div>
+        </div>
+      </div>
+  </ion-content>
+</form>
+</ion-view>

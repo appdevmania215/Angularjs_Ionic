@@ -1,0 +1,63 @@
+<div class="modal">
+  <ion-view>
+    <div class="bar bar-dark-bluish bar-header">
+      <button class="button button-clear" ng-click="discard()">Cancel</button>
+      <h1 class="title">Choose photos</h1>
+      <button class="button button-clear button-balanced" ng-click="use()">Ok</button>
+    </div>
+
+    <div class="empty" ng-if="!photos.length">
+      <p class="text">No photos</p>
+    </div>
+
+    <ion-content class="opaque-content has-header has-footer" has-bouncing="true">
+      <div class="camera-roll clearfix">
+        <div class="photo"
+          ng-repeat="photo in photos"
+          ng-class="selected.indexOf(photo) >= 0 ? 'selected' : ''"
+          ng-click="toggle(photo)">
+          <div class="image"
+          ng-class="photo.rotate ? 'rotated' : ''"
+          style="background-image: url({{ photo.url }})"></div> 
+          <i class="radio-icon ion-checkmark" ng-if="selected.indexOf(photo) >= 0"></i>
+        </div>
+      </div>
+    </ion-content>
+
+    <div class="row bar bar-dark-bluish bar-footer">
+      <div class="col">
+        <button class="button button-block button-balanced"
+          id="take-new-photo"
+          imagepicker
+          imagepicker-height="800"
+          imagepicker-width="800"
+          imagepicker-open-on-click="true"
+          imagepicker-callback="addPhoto">
+          <i class="icon ion-ios7-camera"></i>
+          Take new
+        </button>
+      </div>
+      <div class="col">
+         <button class="button button-block button-balanced"
+          id="select-existing-photo"
+          imagepicker
+          imagepicker-height="800"
+          imagepicker-width="800"
+          imagepicker-open-on-click="true"
+          imagepicker-callback="addPhoto"
+          multiple>
+          <i class="icon ion-ios7-camera"></i>
+          Select existing
+        </button>
+        <!--
+        <button class="button button-block"
+          ng-class="selected.length ? 'button-balanced' : 'button-assertive'"
+          ng-click="use()">
+          <i class="icon" ng-class="selected.length ? 'ion-camera' : 'ion-ios7-close-empty'"></i>
+          {{ selected.length ? 'Use selected' : 'Use none' }}
+        </button>
+        -->
+      </div>
+    </div>
+  </ion-view>
+</div>

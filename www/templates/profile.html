@@ -1,0 +1,92 @@
+<ion-view>
+<form name="form" novalidate>
+  <div class="bar bar-dark-bluish bar-header">
+    <button class="{{ leftButtonClasses }}" ng-click="leftButtonClick()">
+      {{ leftButton }}
+    </button>
+    <h1 class="title">My Profile</h1>
+    <button class="{{ rightButtonClasses }}" ng-click="rightButtonClick()"
+    ng-disabled="editing && form.$invalid">
+      {{ rightButton }}
+    </button>
+  </div>
+  <div class="bar bar-profile-subheader {{ editing ? 'with-message' : '' }} bar-subheader padding">
+    <p class="message" ng-if="editing">Please add a photo and fill in the rest of your profile</p>
+    <div class="profile-user-photo user-photo"
+      ng-class="user.avatar ? 'has-photo' : editing && blurred.photo ? 'missing-photo' : ''"
+      style="background-image: url({{ user.tempPhoto.url || (user.avatar | imageUrl) }})">
+      <div class="profile-user-photo-inside user-photo-inside"
+        id="profile-photo-picker"
+        ng-click="editing ? selectProfilePhoto() : void(0)"
+        imagepicker
+        imagepicker-callback="usePhoto"
+        imagepicker-front-facing="true"
+        imagepicker-width="160"
+        imagepicker-height="160"
+        ng-disabled="!editing"
+        ng-class="editing && (user.tempPhoto || user.avatar) ? 'faded' : ''">
+        <i class="icon ion-person" ng-class="!editing && user.avatar ? 'invisible' : ''"></i>
+        <span class="message small-caps" ng-class="!editing ? 'invisible' : ''">
+          {{ needsPhoto() ? 'Add photo' : 'Change' }}
+        </span>
+      </div>
+    </div>
+  </div>
+  <ion-content class="opaque-content padded-content has-profile-subheader has-subheader" has-bouncing="true">
+    <h2 class="heading assertive">
+      Personal Details
+    </h2>
+      <div class="list">
+        <label class="item item-input item-floating-label"
+          ng-class="validationClass(form.firstName)"
+          ng-disabled="!editing">
+          <span class="input-label">First name</span>
+          <input type="text" name="firstName"
+            required
+            ng-model="user.firstName"
+            ng-blur="blurred.firstName = true"
+            placeholder="First name"
+            ng-disabled="!editing">
+        </label>
+        <label class="item item-input item-floating-label"
+          ng-class="validationClass(form.lastName)"
+          ng-disabled="!editing">
+          <span class="input-label">Last name</span>
+          <input type="text" name="lastName"
+            required
+            ng-model="user.lastName"
+            ng-blur="blurred.lastName = true"
+            placeholder="Last name"
+            ng-disabled="!editing">
+        </label>
+        <label class="item item-input item-floating-label"
+          ng-class="validationClass(form.phone)"
+          ng-disabled="!editing">
+          <span class="input-label">
+            Mobile 
+            <span ng-if="validationClass(form.phone)">
+              invalid
+            </span>
+            (optional)
+          </span>
+          <input type="tel" name="phone"
+            ng-model="user.phone"
+            ng-blur="blurred.phone = true"
+            ng-pattern="regex.phone"
+            placeholder="Mobile (optional)"
+            ng-disabled="!editing">
+        </label>
+        <label class="item item-input item-floating-label item-faux-select"
+          ng-class="validationClass(form.locationId)"
+          ng-disabled="!editing"
+          ng-click="openSelectFor('locationId', !editing)">
+          <span class="input-label">City/Town (optional)</span>
+          <input type="text" name="locationId"
+            ng-model="user.location"
+            ng-blur="blurred.location = true"
+            placeholder="City/Town (optional)">
+        </label>
+      </div>
+  </ion-content>
+</form>
+</ion-view>

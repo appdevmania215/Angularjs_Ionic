@@ -1,0 +1,33 @@
+<ion-view>
+  <div class="bar bar-dark-bluish bar-header item-input-inset">
+    <label class="item-input-wrapper">
+      <i class="icon ion-ios7-search placeholder-icon assertive"></i>
+      <input type="search" placeholder="Search notifications" ng-model="query">
+    </label>
+    <button class="button button-clear" ng-click="done()">
+      Done
+    </button>
+  </div>
+
+  <div class="empty has-header" ng-if="query && !(notifications | filter: query).length">
+    <p class="text">No results for<br> <em>{{ query }}</em></p>
+  </div>
+
+  <ion-content class="opaque-content has-header" has-bouncing="true">
+    <div class="list">
+      <a class="notification item item-thumbnail-left"
+      ng-class="!notification.read.viewedAt ? 'unread' : ''"
+      ng-if="query"
+      ui-sref="notification({ id: notification.id })"
+      ng-repeat="notification in notifications | filter: query | orderBy: '-updatedAt'">
+        <div class="item-image" style="background-image:url({{ notification.attachments[0] | thumbnailUrl }})"></div>
+        <h2 class="title small-caps" ng-if="notification.title">{{ notification.title }}</h2>
+        <p class="description">{{ notification.description | charLimit: 48 }}<span class="anchor"></span></p>
+        <div class="meta clearfix">
+          <span class="reporter">{{ notification.reporter | fullName }}</span>
+          <span class="date">{{ notification.updatedAt | date: 'MMM d, h:mma' | lowerMeridiem | cropDate: 'MMM d, ' }}</span>
+        </div>
+      </a>
+    </div>
+  </ion-content>
+</ion-view>

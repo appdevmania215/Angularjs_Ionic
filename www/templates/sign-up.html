@@ -1,0 +1,81 @@
+<ion-view class="login-view dark-view">
+  <ion-content class="padded-content" has-bouncing="true">
+    <h1 class="login-section-heading">
+      Sign up
+    </h1>
+
+    <form name="form" novalidate ng-submit="signup(form)">
+      <div class="list">
+        <label class="item item-input item-floating-label" ng-class="validationClass(form.email)">
+          <span class="input-label">
+            Email
+            <span ng-if="validationClass(form.email)">
+              <span> invalid</span>
+            </span>
+          </span>
+          <input type="email" name="email"
+            required
+            placeholder="Email"
+            ng-model="user.email"
+            ng-blur="blurred.email = true"
+            ng-pattern="regex.email">
+        </label>
+        <label class="item item-input item-floating-label" ng-class="validationClass(form.firstName)">
+          <span class="input-label">First name</span>
+          <input type="text" name="firstName"
+            required
+            placeholder="First name"
+            ng-model="user.firstName"
+            ng-blur="blurred.firstName = true">
+        </label>
+        <label class="item item-input item-floating-label" ng-class="validationClass(form.lastName)">
+          <span class="input-label">Last name</span>
+          <input type="text" name="lastName"
+            required
+            placeholder="Last name"
+            ng-model="user.lastName"
+            ng-blur="blurred.lastName = true">
+        </label>
+        <label class="item item-input item-floating-label" ng-class="validationClass(form.position)">
+          <span class="input-label">Position</span>
+          <input type="text" name="position"
+            required
+            placeholder="Position"
+            ng-model="user.position"
+            ng-blur="blurred.position = true">
+        </label>
+        <label class="item item-input item-floating-label" ng-class="validationClass(form.password, passwordsMatch)">
+          <span class="input-label">
+            Password<span ng-if="validationClass(form.password, passwordsMatch)"><span ng-if="!passwordsMatch()">s do not match</span>
+              <span ng-if="passwordsMatch() && form.password.$error.minlength"> too short</span>
+              <span ng-if="passwordsMatch() && form.password.$error.maxlength"> too long</span>
+            </span>
+          </span>
+          <input type="password" name="password"
+            required
+            placeholder="Password"
+            ng-model="user.password"
+            ng-blur="blurred.password = true"
+            ng-minlength="4"
+            ng-maxlength="11">
+        </label>
+        <label class="item item-input item-floating-label" ng-class="validationClass(form.confirmPassword, passwordsMatch)">
+          <span class="input-label">Confirm password</span>
+          <input type="password" name="confirmPassword"
+            required
+            placeholder="Confirm password"
+            ng-model="user.confirmPassword"
+            ng-blur="blurred.confirmPassword = true"
+            ng-minlength="4"
+            ng-maxlength="11">
+        </label>
+      </div>
+      <button class="button button-block button-balanced" ng-disabled="form.$invalid">
+        Create account
+      </button>
+      <button class="button button-block button-assertive" ui-sref="login">
+        Cancel
+      </button>
+    </form>
+  </ion-content>
+</ion-view>

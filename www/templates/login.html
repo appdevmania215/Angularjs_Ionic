@@ -1,0 +1,55 @@
+<ion-view class="login-view dark-view">
+  <ion-content class="padded-content" has-bouncing="false">
+  <div class="wrapper">
+    <h1 class="logo-large logo">
+      Site360
+    </h1>
+
+    <form name="form" novalidate ng-submit="login(form)">
+      <div class="list">
+        <label class="item item-input item-floating-label" ng-class="validationClass(form.email)">
+          <span class="input-label">
+            Email
+            <span ng-if="validationClass(form.email)">
+              <span> invalid</span>
+            </span>
+          </span>
+          <input type="email" name="email"
+            required
+            placeholder="Email"
+            ng-model="user.email"
+            ng-blur="blurred.email = true"
+            ng-pattern="regex.email">
+        </label>
+        <label class="item item-input item-floating-label" ng-class="validationClass(form.password, success)">
+          <span class="input-label">
+            Password
+            <span ng-if="validationClass(form.password, success)">
+              <span ng-if="form.password.$error.minlength"> too short</span>
+              <span ng-if="form.password.$error.maxlength"> too long</span>
+            </span>
+            <span ng-if="form.password.$valid && !success()"> incorrect</span>
+          </span>
+          <input type="password" name="password"
+            required
+            placeholder="Password"
+            ng-model="user.password"
+            ng-change="failed = undefined"
+            ng-blur="blurred.password = true"
+            ng-minlength="4"
+            ng-maxlength="11">
+        </label>
+        <button class="button button-block button-balanced" type="submit" ng-disabled="form.$invalid || !success()">
+          Sign in
+        </button>
+      </div>
+    </form>
+    
+    <div class="footer">
+      <a class="button-clear" ui-sref="reset-password">
+        Forgot password
+      </a>
+    </div>
+  </div>
+  </ion-content>
+</ion-view>
